@@ -8,6 +8,7 @@
   let strategies = store.get("mb-strategies", []);
   let patterns = store.get("mb-patterns", []);
   let replayPosition = 70, replayTimer = null, historical = false;
+let currentTimeframe = "M15";
   const toast = (message) => { const el=$("#toast"); el.textContent=message; el.classList.add("show"); clearTimeout(toast.t); toast.t=setTimeout(()=>el.classList.remove("show"),2800); };
   function navigate(page) {
     $$(".page").forEach(p=>p.classList.toggle("active",p.id===`page-${page}`));
@@ -20,7 +21,9 @@
   setTheme(store.get("mb-theme","dark"));
   $("#themeToggle").addEventListener("click",()=>setTheme(document.documentElement.dataset.theme==="light"?"dark":"light"));
   $("#themeSelect").addEventListener("change",e=>setTheme(e.target.value));
-  $$(".tf").forEach(b=>b.addEventListener("click",()=>{$$(".tf").forEach(x=>x.classList.toggle("active",x===b));$("#chartTitle").innerHTML=`${$("#symbol").value} <span>·</span> ${b.textContent}`;drawChart();}));
+  
+  $$(".tf").forEach(b=>b.addEventListener("click",()=>{$$(".tf").forEach(x=>x.classList.toggle("active",x===b));currentTimeframe=b.textContent;$("#chartTitle").innerHTML=`${$("#symbol").value} <span>·</span> ${currentTimeframe}`;drawChart();}));
+  
   $("#symbol").addEventListener("change",()=>{$("#chartSymbol").textContent=$("#symbol").value;$("#chartTitle").innerHTML=`${$("#symbol").value} <span>·</span> ${$(".tf.active")?.textContent||"M15"}`;drawChart();});
   $("#toolsToggle").addEventListener("click",()=>$("#toolsPanel").classList.toggle("hidden"));
   $$("[data-tool]").forEach(b=>b.addEventListener("click",()=>{$$("[data-tool]").forEach(x=>x.classList.toggle("active",x===b));toast(`${b.dataset.tool} selected. Drawing interaction will be enabled in the chart-engine phase.`);}));
