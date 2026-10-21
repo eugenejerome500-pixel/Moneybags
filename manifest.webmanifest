@@ -1,0 +1,11 @@
+{
+  "name": "Moneybbags",
+  "short_name": "Moneybbags",
+  "description": "Trading strategy research and discipline workspace",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#111315",
+  "theme_color": "#111315",
+  "icons": []
+}

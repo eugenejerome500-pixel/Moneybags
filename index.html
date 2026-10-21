@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111315">
+  <meta name="description" content="Moneybbags — trading strategy research and discipline workspace.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <title>Moneybbags</title>
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" data-page="chart" aria-label="Moneybbags home"><span class="brand-mark">M</span><span>Moneybbags</span></button>
+    <div class="top-controls">
+      <select id="symbol" aria-label="Market"><option>XAUUSD</option><option>EURUSD</option><option>GBPUSD</option><option>USDJPY</option><option>AUDUSD</option><option>USDCAD</option><option>USDCHF</option><option>NZDUSD</option></select>
+      <div class="timeframes" aria-label="Timeframe">
+        <button class="tf">D1</button><button class="tf">H4</button><button class="tf">H1</button><button class="tf">M30</button><button class="tf active">M15</button><button class="tf">M5</button><button class="tf">M1</button>
+      </div>
+      <button id="themeToggle" class="icon-button" title="Switch theme" aria-label="Switch theme">◐</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="page-chart" class="page active">
+      <div class="chart-heading">
+        <div><div class="eyebrow">CHART WORKSPACE</div><h1 id="chartTitle">XAUUSD <span>·</span> 15m</h1><p class="muted">One continuous chart for live monitoring and historical research</p></div>
+        <div class="chart-actions"><button id="toolsToggle" class="secondary">Drawing tools</button><button id="replayToggle" class="primary">Historical replay</button></div>
+      </div>
+      <div id="toolsPanel" class="tools-panel hidden">
+        <button data-tool="Crosshair" class="tool active">Crosshair</button><button data-tool="Trend line" class="tool">Trend line</button><button data-tool="Horizontal line" class="tool">Horizontal line</button><button data-tool="Zone" class="tool">Zone</button><button data-tool="Text note" class="tool">Text note</button><button id="savePattern" class="tool">Save pattern</button>
+      </div>
+      <div class="chart-layout">
+        <aside class="draw-rail" aria-label="Drawing tools"><button title="Crosshair">＋</button><button title="Trend line">／</button><button title="Horizontal line">―</button><button title="Zone">▱</button><button title="Text note">T</button><button title="Pattern library" data-page="strategies">◇</button></aside>
+        <div class="chart-card">
+          <div class="chart-topline"><div><strong id="chartSymbol">XAUUSD</strong><span class="pill">DEMO DATA</span></div><div class="price"><strong id="currentPrice">2,650.42</strong><span id="priceChange" class="positive">+0.24%</span></div></div>
+          <div class="chart-area"><canvas id="chartCanvas" aria-label="Illustrative candlestick chart. Demonstration data, not live prices."></canvas><div class="chart-watermark">Moneybbags</div><div class="chart-overlay"><span>DEMONSTRATION CHART</span><small>Connect a supported market-data provider for live prices.</small></div></div>
+          <div class="chart-footer"><span id="chartStatus">Illustrative candles · not live market data</span><button id="latestBtn" class="text-button">↗ Return to latest</button></div>
+          <div id="replayPanel" class="replay-panel hidden"><div class="replay-title"><strong>Historical replay</strong><span class="muted">Demo controls</span></div><div class="replay-controls"><button id="stepBack">← Candle</button><button id="playReplay" class="primary">▶ Play</button><button id="stepForward">Candle →</button><label>Speed <select id="replaySpeed"><option>1×</option><option>2×</option><option>4×</option></select></label></div><input id="replayRange" type="range" min="10" max="90" value="70" aria-label="Replay position"><p class="muted tiny">Replay controls are a visual scaffold; historical data and true no-look-ahead replay are not connected yet.</p></div>
+        </div>
+        <aside class="right-rail">
+          <div class="side-card"><div class="side-title">Watchlist <span class="muted">⌄</span></div><div class="watch-row"><span>XAUUSD</span><strong>—</strong></div><div class="watch-row"><span>EURUSD</span><strong>—</strong></div><div class="watch-row"><span>GBPUSD</span><strong>—</strong></div><div class="watch-row"><span>USDJPY</span><strong>—</strong></div><p class="tiny muted">Prices appear after data connection.</p></div>
+          <div class="side-card"><div class="side-title">Market context</div><p class="muted tiny">AI market analysis is not connected.</p><div class="context-row"><span>Market regime</span><b>Awaiting data</b></div><div class="context-row"><span>Liquidity zones</span><b>Awaiting data</b></div></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="page-strategies" class="page">
+      <div class="page-heading"><div class="eyebrow">YOUR SYSTEMS</div><h1>Strategies</h1><p class="muted">Create and manage your rules, setups and reusable patterns.</p></div>
+      <div class="summary-strip"><div><span class="muted">Active strategies</span><strong id="activeCount">0 / 3</strong></div><div><span class="muted">Saved strategies</span><strong id="strategyCount">0</strong></div><div><span class="muted">Pattern library</span><strong id="patternCount">0</strong></div></div>
+      <div class="two-column"><div class="panel"><div class="panel-head"><h2>Create a strategy</h2></div><form id="strategyForm"><label>Strategy name<input id="strategyName" required maxlength="80" placeholder="e.g. London liquidity setup"></label><label>Market / scope<select id="strategyScope"><option>Forex and metals</option><option>XAUUSD only</option><option>Selected instrument</option></select></label><label>Conditions and confirmation sequence<textarea id="strategyRules" rows="5" placeholder="Describe your conditions, their order, timing and expected direction."></textarea></label><label>Invalidation rules<textarea id="strategyInvalidation" rows="3" placeholder="Define when this setup attempt becomes invalid."></textarea></label><button class="primary" type="submit">Save strategy</button><p class="tiny muted">Saving stores your strategy in this browser. It does not yet run automated market detection.</p></form></div><div class="panel"><div class="panel-head"><h2>Your strategies</h2><span class="muted tiny">Maximum 3 active</span></div><div id="strategyList" class="empty-state">No strategies saved yet. Create your first strategy.</div></div></div>
+      <div class="panel pattern-panel"><div class="panel-head"><h2>Pattern library</h2><button class="secondary" id="addPattern">Add pattern</button></div><p class="muted">Save named patterns and their notes for future strategy research. Automatic visual recognition will require implementation and testing.</p><div id="patternList" class="empty-state">No custom patterns saved yet.</div></div>
+    </section>
+
+    <section id="page-performance" class="page">
+      <div class="page-heading"><div class="eyebrow">REVIEW & LEARN</div><h1>Performance & AI Coach</h1><p class="muted">Review completed setups, compare outcomes and strengthen discipline.</p></div>
+      <div class="notice"><strong>Research mode not connected yet.</strong><p>This screen does not invent win rates. Connect real historical data and record evaluated setups before using performance statistics.</p></div>
+      <div class="summary-strip performance-strip"><div><span class="muted">Directional success</span><strong>—</strong><small>Awaiting verified results</small></div><div><span class="muted">Completed setups</span><strong>0</strong><small>Incomplete setups excluded</small></div><div><span class="muted">Active strategies</span><strong id="perfActiveCount">0 / 3</strong><small>User-controlled</small></div></div>
+      <div class="two-column"><div class="panel"><h2>Winning vs losing setups</h2><p class="muted">The coach will compare market context, confirmations, timing, liquidity, structure, volatility and risk-to-reward when sufficient records exist.</p><div class="placeholder-chart"><span>Results comparison will appear here</span></div></div><div class="panel"><h2>Discipline Coach</h2><p class="muted">Planned advisory checks:</p><ul class="clean-list"><li>Missing strategy confirmations</li><li>Premature entry warnings</li><li>Stop-loss / take-profit conflicts</li><li>Strategy-specific invalidation</li><li>Evidence-backed improvement suggestions</li></ul><div class="notice small-notice">Advisory only. Moneybbags will not place trades or silently change your rules.</div></div></div>
+    </section>
+
+    <section id="page-settings" class="page">
+      <div class="page-heading"><div class="eyebrow">PREFERENCES</div><h1>Settings</h1><p class="muted">Keep the interface clean and configure connections when ready.</p></div>
+      <div class="settings-grid">
+        <div class="panel"><h2>Appearance</h2><label>Theme<select id="themeSelect"><option value="dark">Dark — black / white</option><option value="light">Light — white / black</option></select></label><label>Accent<select id="accentSelect"><option value="teal">Restrained teal-green</option></select></label><p class="tiny muted">The agreed minimal colour system is preserved.</p></div>
+        <div class="panel"><h2>Market data</h2><div class="connection-state"><span class="status-dot"></span><div><strong>Not connected</strong><p class="muted tiny">No live provider configured.</p></div></div><label>Provider name<input id="providerName" placeholder="Supported data provider"></label><label>API endpoint<input id="apiEndpoint" placeholder="HTTPS endpoint, if required"></label><p class="tiny muted">Do not enter broker passwords or secret API keys in this demo interface. Secure server-side integration must be built before credentials are used.</p><button id="saveConnection" class="secondary">Save connection details locally</button><p id="connectionMessage" class="tiny muted"></p></div>
+        <div class="panel"><h2>Notifications</h2><label class="switch-row"><span>Strategy condition alerts</span><input type="checkbox" id="strategyAlerts"></label><label class="switch-row"><span>Setup invalidation alerts</span><input type="checkbox" id="invalidationAlerts"></label><label class="switch-row"><span>Connection status alerts</span><input type="checkbox" id="connectionAlerts"></label><p class="tiny muted">These preferences are saved locally. Real alerts require working detection and notification integration.</p></div>
+        <div class="panel"><h2>About Moneybbags</h2><p>Trading master-class, research and discipline workspace.</p><p class="muted tiny">Exness Standard · MT5 on Android · Forex and metals · Manual trade execution</p><p class="muted tiny">This initial package is a UI and local-storage foundation, not a live trading system.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <button class="nav-item active" data-page="chart"><span>⌁</span>Chart</button>
+    <button class="nav-item" data-page="strategies"><span>◇</span>Strategies</button>
+    <button class="nav-item" data-page="performance"><span>▥</span>Performance & AI</button>
+    <button class="nav-item" data-page="settings"><span>⚙</span>Settings</button>
+  </nav>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
